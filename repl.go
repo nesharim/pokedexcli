@@ -8,7 +8,7 @@ import (
 )
 
 type Command struct {
-	callback    func() error
+	callback    func(cfg *config) error
 	name        string
 	description string
 }
@@ -19,6 +19,16 @@ func getCommands() map[string]Command {
 			callback:    commandHelp,
 			name:        "help",
 			description: "Displays a help message",
+		},
+		"map": {
+			callback:    commandMap,
+			name:        "map",
+			description: "List next 20 locations",
+		},
+		"mapb": {
+			callback:    commandMapB,
+			name:        "mapb",
+			description: "List previous 20 locations",
 		},
 		"exit": {
 			callback:    commandExit,
@@ -34,7 +44,7 @@ func cleanInput(text string) []string {
 	return words
 }
 
-func repl() {
+func repl(cfg *config) {
 	for {
 		scanner := bufio.NewScanner(os.Stdin)
 		fmt.Print("Pokedex > ")
@@ -47,7 +57,7 @@ func repl() {
 
 		if len(cleaned) == 0 {
 			fmt.Println("Please enter a command")
-			commandHelp()
+			commandHelp(cfg)
 			continue
 		}
 
@@ -58,7 +68,11 @@ func repl() {
 			continue
 		}
 
-		command.callback()
+		err := command.callback(cfg)
+		if err != nil {
+			fmt.Println(err)
+		}
+
 		fmt.Println()
 
 	}
