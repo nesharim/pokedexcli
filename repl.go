@@ -43,16 +43,18 @@ func repl() {
 
 		cleaned := cleanInput(text)
 
+		availableCommands := getCommands()
+
 		if len(cleaned) == 0 {
-			fmt.Println("No entry found")
+			fmt.Println("Please enter a command")
+			commandHelp()
 			continue
 		}
 
-		availableCommands := getCommands()
 		command, ok := availableCommands[text]
 
 		if !ok {
-			fmt.Printf("Entered cmd %v\n", text)
+			fmt.Print("Invalid Command\n\n")
 			continue
 		}
 
