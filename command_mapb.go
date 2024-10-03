@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func commandMapB(cfg *config) error {
+func commandMapB(cfg *config, args ...string) error {
 	if cfg.previousLocationAreasURL == nil {
 		return fmt.Errorf("Previous URL null")
 	}

@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func commandMap(cfg *config) error {
+func commandMap(cfg *config, args ...string) error {
 	resp, err := cfg.pokemonClient.ListLocationAreas(cfg.nextLocationAreasURL)
 	if err != nil {
 		return err

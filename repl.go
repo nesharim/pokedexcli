@@ -8,7 +8,7 @@ import (
 )
 
 type Command struct {
-	callback    func(cfg *config) error
+	callback    func(cfg *config, args ...string) error
 	name        string
 	description string
 }
@@ -19,6 +19,11 @@ func getCommands() map[string]Command {
 			callback:    commandHelp,
 			name:        "help",
 			description: "Displays a help message",
+		},
+		"explore": {
+			callback:    commandExplore,
+			name:        "explore",
+			description: "Explores an area of the map",
 		},
 		"map": {
 			callback:    commandMap,
@@ -50,7 +55,7 @@ func repl(cfg *config) {
 		fmt.Print("Pokedex > ")
 		scanner.Scan()
 		text := scanner.Text()
-
+		args := []string{}
 		cleaned := cleanInput(text)
 
 		availableCommands := getCommands()
@@ -61,14 +66,20 @@ func repl(cfg *config) {
 			continue
 		}
 
-		command, ok := availableCommands[text]
+		option := cleaned[0]
+
+		if len(cleaned) > 1 {
+			args = cleaned[1:]
+		}
+
+		command, ok := availableCommands[option]
 
 		if !ok {
 			fmt.Print("Invalid Command\n\n")
 			continue
 		}
 
-		err := command.callback(cfg)
+		err := command.callback(cfg, args...)
 		if err != nil {
 			fmt.Println(err)
 		}

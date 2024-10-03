@@ -1,6 +1,10 @@
 package main
 
-import "github.com/nesharim/pokedexcli/internal/pokemonapi"
+import (
+	"time"
+
+	"github.com/nesharim/pokedexcli/internal/pokemonapi"
+)
 
 type config struct {
 	nextLocationAreasURL     *string
@@ -10,7 +14,7 @@ type config struct {
 
 func main() {
 	cfg := config{
-		pokemonClient: pokemonapi.NewClient(),
+		pokemonClient: pokemonapi.NewClient(time.Hour),
 	}
 
 	repl(&cfg)
