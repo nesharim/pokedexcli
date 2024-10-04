@@ -40,6 +40,11 @@ func getCommands() map[string]Command {
 			name:        "exit",
 			description: "Exit the Pokedex",
 		},
+		"catch": {
+			callback:    commandCatchPokemon,
+			name:        "catch <pokemon-name>",
+			description: "Gives you an opportunity to catch a pokemon",
+		},
 	}
 }
 
